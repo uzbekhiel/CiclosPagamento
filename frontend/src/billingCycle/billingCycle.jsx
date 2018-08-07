@@ -17,7 +17,7 @@ import List from './billingCycleList'
 
     componentWillMount(){
         this.props.selectTab('tabList')
-        this.props.showTabs('tabList','tabCreate','tabUpdate','tabDelete')
+        this.props.showTabs('tabList','tabCreate')
     }
 
     render(){
