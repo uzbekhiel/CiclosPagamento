@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-import {getList} from './billingCycleActions'
+import {getList, showUpdate} from './billingCycleActions'
 
 class BillingCycleList extends Component{
     
@@ -11,17 +11,19 @@ class BillingCycleList extends Component{
 
     renderRows(){
         const list = this.props.list || []
-        const arr = []
-        for (var index = 0; index < list.length; index++) {
-            arr.push((
-                <tr key={list[index]._id}>
-                    <td>{list[index].name}</td>
-                    <td>{list[index].month}</td>
-                    <td>{list[index].year}</td>
+
+        return list.map(bc=>(
+            <tr key={bc._id}>
+                    <td>{bc.name}</td>
+                    <td>{bc.month}</td>
+                    <td>{bc.year}</td>
+                    <td>
+                        <button className='btn btn-warning' onClick={()=>this.props.showUpdate(bc)}>
+                            <i className='fa fa-pencil'></i>
+                        </button>
+                    </td>
                 </tr>
-            ))
-        }
-        return arr.map(c=> c)
+        ))
     }
 
     render(){
@@ -29,9 +31,11 @@ class BillingCycleList extends Component{
             <div>
                 <table className='table'>
                     <thead>
-                        <th>Nome</th>
-                        <th>Mês</th>
-                        <th>Ano</th>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Mês</th>
+                            <th>Ano</th>
+                        </tr>
                     </thead>
                     <tbody>
                         {this.renderRows()}
@@ -43,5 +47,5 @@ class BillingCycleList extends Component{
 }
 
 const mapToStateToProps = state => ({list: state.billingCycle.list})
-const mapDispatchToProps = dispatch => bindActionCreators({getList},dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({getList, showUpdate},dispatch)
 export default connect(mapToStateToProps,mapDispatchToProps)(BillingCycleList)
